@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Journey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+    <div class="background-elements">
+        <div class="heart-shape">❤️</div>
+        <div class="heart-shape">💖</div>
+        <div class="heart-shape">✨</div>
+        <div class="heart-shape">🌸</div>
+        <div class="heart-shape">❤️</div>
+        <div class="heart-shape">✨</div>
+        <div class="heart-shape">🧸</div>
+    </div>
+
+    <section id="page1" class="page active">
+        <div class="container">
+            <h2 class="warning-title">⚠️ Warning</h2>
+            <p class="warning-desc"><br>Do you trust this person?</p>
+            <button class="btn yes-life-btn" onclick="showPage('page2')">Yes, with my life</button>
+        </div>
+    </section>
+
+    <section id="page2" class="page">
+        <div class="container">
+            <h1>Watch this first...</h1>
+            <div class="video-container">
+                <video id="myVideo" controls width="100%">
+                    <source src="myvideo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <button id="awwBtn" class="btn aww-btn hidden" onclick="showPage('page3')">Awwww 🥺</button>
+        </div>
+    </section>
+
+    <section id="page3" class="page">
+        <div class="container">
+            <h1>So, Will you be my Valentine?</h1>
+            <div class="heart-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Heart" class="floating-heart">
+            </div>
+            <div class="button-group">
+                <button class="btn yes-btn" onclick="celebrate()">Yes</button>
+                <button class="btn no-btn" onclick="showPage('pageNo1')">No</button>
+            </div>
+            <br>
+            <p class="small-warning">⚠️ Warning: Don't click on "No"!</p>
+        </div>
+    </section>
+
+    <section id="pageNo1" class="page">
+        <div class="container">
+            <h1>Okay, as you wish...</h1>
+            <p class="warning-desc">But are you really sure? 🤨</p>
+            <button class="btn yes-life-btn" onclick="showPage('pageNo2')">Yes, I'm sure</button>
+        </div>
+    </section>
+
+    <section id="pageNo2" class="page">
+        <div class="container">
+            <h1>Are you really going? 😭</h1>
+            <p class="warning-desc">My heart is breaking...</p>
+            <button class="btn yes-life-btn" onclick="showPage('pageNo3')">Yes</button>
+        </div>
+    </section>
+
+    <section id="pageNo3" class="page">
+        <div class="container">
+            <h1>Access Denied! 🙅‍♂️</h1>
+            <p class="warning-desc">You are not allowed to go.<br>We are already married in my mind! 💍</p>
+            <button class="btn yes-btn" onclick="celebrate()">Okay, I'll stay ❤️</button>
+        </div>
+    </section>
+
+    <script>
+        const password = prompt("Enter the secret code to enter:");
+        if (password !== "i love you") { // Change to your password
+            alert("Incorrect! You are not allowed here.");
+            document.body.innerHTML = "<h1>Access Denied</h1>";
+        }
+
+        // Function to switch between "pages"
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Video logic to show the "Awww" button
+        const video = document.getElementById('myVideo');
+        const awwBtn = document.getElementById('awwBtn');
+        if (video) {
+            video.onended = function () {
+                awwBtn.classList.remove('hidden');
+                awwBtn.classList.add('fade-in');
+            };
+        }
+
+        function celebrate() {
+            // 1. Trigger the Confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758f', '#ffb4c2', '#ffffff']
+            });
+
+            // 2. Update the UI with "Yayy!" and animated elements
+            const activeContainer = document.querySelector('.page.active .container');
+            activeContainer.innerHTML = `
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">yayy!</h1>
+                <h1>Forever and Always! 💖✨</h1>
+                <p style="margin-bottom: 20px;">I knew it! You're stuck with me now.</p>
+                <img src="https://media.tenor.com/RGsJYjA5gOsAAAAi/peach-goma.gif" 
+                     alt="Animated Love" 
+                     style="width: 150px; border-radius: 15px;">
+            `;
+        }
+
+        // Running "No" button logic (Optional, kept for the main page)
+        const noBtn = document.getElementById('noButton');
+        if (noBtn) {
+            noBtn.addEventListener('mouseover', () => {
+                const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = `${x}px`;
+                noBtn.style.top = `${y}px`;
+            });
+        }
+    </script>
+</body>
+
+</html>
