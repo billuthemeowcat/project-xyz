@@ -84,7 +84,7 @@
     </section>
 
     <script>
-        // Password Protection
+        // 1. PASSWORD CHECK
         const password = prompt("Enter the secret code to enter:");
         if (password !== "i love you") {
             alert("Incorrect! You are not allowed here.");
@@ -94,13 +94,11 @@
         const video = document.getElementById('myVideo');
         const awwBtn = document.getElementById('awwBtn');
 
-        // Combined Page Switcher & iPhone Video Fix
+        // 2. NAVIGATION LOGIC
         function showPage(pageId) {
-            // iPhone Fix: We trigger video.load() or video.play() on the FIRST button click 
-            // This grants the browser permission to play the video on Page 2.
+            // iPhone Fix: Start video on first button click
             if (pageId === 'page2' && video) {
                 video.play();
-                // If you want it to wait for them to hit play manually, use video.load() instead.
             }
 
             document.querySelectorAll('.page').forEach(page => {
@@ -109,15 +107,13 @@
             document.getElementById(pageId).classList.add('active');
         }
 
-        // Video Event Listeners
+        // 3. VIDEO END LOGIC
         if (video) {
-            // Standard end detection
             video.onended = function() {
                 awwBtn.classList.remove('hidden');
                 awwBtn.classList.add('fade-in');
             };
 
-            // iPhone Safety: Detects if video is near the end (in case onended fails)
             video.addEventListener('timeupdate', function() {
                 if (video.currentTime >= video.duration - 0.5 && video.duration > 0) {
                     awwBtn.classList.remove('hidden');
@@ -125,7 +121,11 @@
             });
         }
 
+        // 4. CELEBRATION LOGIC (FIXED)
         function celebrate() {
+            // Force user to the Main Page container view
+            showPage('page3');
+
             confetti({
                 particleCount: 150,
                 spread: 70,
@@ -133,8 +133,9 @@
                 colors: ['#ff4d6d', '#ff758f', '#ffb4c2', '#ffffff']
             });
 
-            const activeContainer = document.querySelector('.page.active .container');
-            activeContainer.innerHTML = `
+            // Target the specific Page 3 container for the "Yayy" message
+            const mainContainer = document.querySelector('#page3 .container');
+            mainContainer.innerHTML = `
                 <h1 style="font-size: 3rem; margin-bottom: 10px;">yayy!</h1>
                 <h1>Forever and Always! 💖✨</h1>
                 <p style="margin-bottom: 20px;">I knew it! You're stuck with me now.</p>
@@ -144,11 +145,10 @@
             `;
         }
 
-        // Running "No" button logic
+        // 5. RUNNING "NO" BUTTON (Only for the Main Question Page)
         const noBtn = document.getElementById('noButton');
         if (noBtn) {
             noBtn.addEventListener('mouseover', () => {
-                // Only runs on desktop; on mobile, this will trigger on tap
                 const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
                 const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
                 noBtn.style.position = 'fixed';
