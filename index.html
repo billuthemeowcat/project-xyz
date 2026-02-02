@@ -84,7 +84,6 @@
     </section>
 
     <script>
-        // 1. Password Protection
         const password = prompt("Enter the secret code to enter:");
         if (password !== "i love you") {
             alert("Incorrect! You are not allowed here.");
@@ -94,26 +93,21 @@
         const video = document.getElementById('myVideo');
         const awwBtn = document.getElementById('awwBtn');
 
-        // 2. Page Navigation logic
         function showPage(pageId) {
-            // iPhone Fix: Audio/Video context trigger
             if (pageId === 'page2' && video) {
                 video.play();
             }
-
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById(pageId).classList.add('active');
         }
 
-        // 3. Video Logic
         if (video) {
             video.onended = function() {
                 awwBtn.classList.remove('hidden');
                 awwBtn.classList.add('fade-in');
             };
-
             video.addEventListener('timeupdate', function() {
                 if (video.currentTime >= video.duration - 0.5 && video.duration > 0) {
                     awwBtn.classList.remove('hidden');
@@ -121,11 +115,8 @@
             });
         }
 
-        // 4. Celebration Logic
         function celebrate() {
-            // Ensure we are viewing a container that can hold the success message
             showPage('page3');
-
             confetti({
                 particleCount: 150,
                 spread: 70,
@@ -143,7 +134,8 @@
                      style="width: 150px; border-radius: 15px;">
             `;
         }
+        
+        // ALL "noButton" MOUSEOVER LOGIC HAS BEEN DELETED
     </script>
 </body>
-
 </html>
