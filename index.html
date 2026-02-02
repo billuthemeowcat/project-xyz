@@ -35,10 +35,11 @@
         <div class="container">
             <h1>Watch this first...</h1>
             <div class="video-container">
-                <video id="myVideo" controls width="100%">
-                    <source src="myvideo.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <video id="myVideo" controls playsinline webkit-playsinline preload="auto" width="100%">
+    <source src="myvideo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
             </div>
             <button id="awwBtn" class="btn aww-btn hidden" onclick="showPage('page3')">Awwww 🥺</button>
         </div>
@@ -100,13 +101,24 @@
 
         // Video logic to show the "Awww" button
         const video = document.getElementById('myVideo');
-        const awwBtn = document.getElementById('awwBtn');
-        if (video) {
-            video.onended = function () {
-                awwBtn.classList.remove('hidden');
-                awwBtn.classList.add('fade-in');
-            };
+const awwBtn = document.getElementById('awwBtn');
+
+if (video) {
+    // Standard way
+    video.onended = function() {
+        awwBtn.classList.remove('hidden');
+        awwBtn.classList.add('fade-in');
+    };
+
+    // iPhone Safety: If they skip through or if onended fails
+    video.addEventListener('timeupdate', function() {
+        if (video.currentTime >= video.duration - 0.5) {
+            awwBtn.classList.remove('hidden');
+            awwBtn.classList.add('fade-in');
         }
+    });
+}
+
 
         function celebrate() {
             // 1. Trigger the Confetti
